@@ -12,7 +12,7 @@ const cors = require("cors");
 const { cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
-
+const path = require("path");
 dotenv.config();
 const PORT = process.env.PORT || 4000;
 
@@ -47,12 +47,9 @@ app.use("/api/v1/reach", contactUsRoute);
 //def route
 
 app.get("/", (req, res) => {
-  return res.json({
-    success: true,
-    message: "Your server is up and running....",
-  });
+  app.use(express.static(path.resolve(__dirname, "frontend", "build")));
+  res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
 });
-
 app.listen(PORT, () => {
   console.log(`App is running at ${PORT}`);
 });
